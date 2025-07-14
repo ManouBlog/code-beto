@@ -49,71 +49,33 @@ Join our community of developers creating universal apps.
 - [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
 - [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
 
-## EXPLICATIONS 
-- Pour voir les explications sur les hooks https://docs.expo.dev/versions/latest/sdk/router/#hooks
+## AUTHENTICATION FLOW
+nb : souvent rédemarre le serveur
 
-#HOOKS#
-*******useFocusEffect()*******
-* nous allons utiliser useFocusEffect() , peut etre utilisé avec react navigation, c est comme use effect.
-* il va etre declencher avant l ui , et lancer ce qu'il a
-* on a aussi useCallback , ou l on peut appeller pour fetch data.
-useFocusEffect(
-    // Callback should be wrapped in `React.useCallback` to avoid running the effect too often.
-    useCallback(() => {
-      // Invoked whenever the route is focused.
-      console.log('Hello, I\'m focused!');
+-nous allons proteger les routes
+-créer des routes publics et privées
+-nous allons créer un dossier (app/auth)
+-Nous allons utiliser app/_layout.tsx pour gerer la protection
+-Dans le fichier app/_layouts.tsx nous aurons:
+  * import { Stack,Slot } from 'expo-router';
+  *  <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <Slot /> (donne les contenus séléctionnés)
+      </ThemeProvider>
+-dans le fichier app/(app)/_layout.tsx nous aurons : 
 
-      // Return function is invoked whenever the route gets out of focus.
-      return () => {
-        console.log('This route is now unfocused.');
-      };
-    }, []))
+ * <Stack>
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="+not-found" />
+      </Stack>
+- nous allons utiliser context (un dossier) pour gérer les états
+- app/context/auth.tsx :
+*définir le type de data
+*definir le type de user
+- avec le context : AuthContextProvider nous pouvons utiliser pour savoir si l'utilisateur est connectée ou pas.
+- nous allons gérer la protection des routes via le fichier app/(auth)/index.tsx
+- dans le dossier app/(auth), on peut avoir plusieurs fichiers comme 'sign up'
+- nous aurons donc dans app/(auth) un fichier : app/(auth)/_layout.tsx qui va montrer le model de l auth
 
-******useGlobalSearchParams()*****
--qd tu utilises , le lien va etre mis à jour , meme si la route n'est pas focused
-
-****useLocalSearchParams()****
-
- // user=baconbrix & extra=info
- // const { user, extra } = useLocalSearchParams();
- // return <Text>User: {user}</Text>;
-
--utilise qd la route est focused.
--ceci permet d'acceder au paramètre de la route
--voici un exemple : acme://profile/baconbrix?extra=info
-tu peux avoir 'baconbrix'
-
-****useNavigation()****
--pour l utiliser c'est : 
-const navigation = useNavigation();
--on peut accéder au méthode comme Navigate() ou go back()
- 
-****useNavigationContainerRef()****
-
--ceci te donne les elements de la route , index:0
--aussi avec :  
- * Route "./(tabs)/index.tsx"
- * {"state": {"index": 0, "key": "stack-PoC_Z_83npEXEk96cOKl7", "preloadedRoutes": [], "routeNames": ["__root"], "routes": [[Object]], "stale": false, "type": "stack"}}
-- la 'routesNames' est un tableau qui montre toutes les routes
-
-*****usePathname****
--donne le nom du path
--selectione le nom de la route sans les paramètres
-
-****useRootNavigationState***
--ceci va retourner l'etat de la route
--ceci retourne un tableau d'objets qui contient le nom de la navigation et le dossier
-
-****useRouter****
--const router = useRouter();
--ceci est comme useNavigation de react
--il ya plusieurs méthode (router.back,router.dissmis)
--on peut utiliser 'canDismiss' pour ne pas revenir en arriere
--donner la permission de revenir en arrière : router.canGoBack()
--avec (router.replace("/")) ceci remplace le segment de la route
--(router.setParams({
-   hello:"test"
-})) ceci  permet d'ajouter des parametres à la route
-
-*****useSegements()*****
--ceci va retourner une liste de fichier ou dossiers qui se trouve dans le projet , du genre des ['profile','[users]']
+- nous allons utiliser le fichier : app/(app)/_layout.tsx pour gérer si l utilisateur doit aller à la page suivante ou pas
+ nous allons utiliser le Redirect pour rediriger si l utilisateur n est pas connéctée.
+- Slot : Renders the current selected content.

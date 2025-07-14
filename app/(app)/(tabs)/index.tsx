@@ -14,9 +14,11 @@ import { useFocusEffect
   useRouter,
   useSegments
  } from 'expo-router';
+import { useAuth } from '@/app/context/auth';
 // import { useCallback } from 'react';
 
 export default function HomeScreen() {
+  const {setUser} = useAuth()
   //  const ref = useNavigationContainerRef()
 
   //  useEffect(()=>{
@@ -60,7 +62,13 @@ export default function HomeScreen() {
   type="title">
    Hello 
   </ThemedText>
-  {/* <Button
+  <Button title='Déconnexion'
+  onPress={()=>{
+  // await new Promise((resolve)=>setTimeout(resolve,2000)); // wait 2 seconds
+   setUser(undefined)
+  }}
+  />
+  {/* <Button 
   title='Navigate'
   onPress={()=>{
     // verifier si il ya deja un back(retour)
