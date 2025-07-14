@@ -48,3 +48,72 @@ Join our community of developers creating universal apps.
 
 - [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
 - [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+
+## EXPLICATIONS 
+- Pour voir les explications sur les hooks https://docs.expo.dev/versions/latest/sdk/router/#hooks
+
+#HOOKS#
+*******useFocusEffect()*******
+* nous allons utiliser useFocusEffect() , peut etre utilisé avec react navigation, c est comme use effect.
+* il va etre declencher avant l ui , et lancer ce qu'il a
+* on a aussi useCallback , ou l on peut appeller pour fetch data.
+useFocusEffect(
+    // Callback should be wrapped in `React.useCallback` to avoid running the effect too often.
+    useCallback(() => {
+      // Invoked whenever the route is focused.
+      console.log('Hello, I\'m focused!');
+
+      // Return function is invoked whenever the route gets out of focus.
+      return () => {
+        console.log('This route is now unfocused.');
+      };
+    }, []))
+
+******useGlobalSearchParams()*****
+-qd tu utilises , le lien va etre mis à jour , meme si la route n'est pas focused
+
+****useLocalSearchParams()****
+
+ // user=baconbrix & extra=info
+ // const { user, extra } = useLocalSearchParams();
+ // return <Text>User: {user}</Text>;
+
+-utilise qd la route est focused.
+-ceci permet d'acceder au paramètre de la route
+-voici un exemple : acme://profile/baconbrix?extra=info
+tu peux avoir 'baconbrix'
+
+****useNavigation()****
+-pour l utiliser c'est : 
+const navigation = useNavigation();
+-on peut accéder au méthode comme Navigate() ou go back()
+ 
+****useNavigationContainerRef()****
+
+-ceci te donne les elements de la route , index:0
+-aussi avec :  
+ * Route "./(tabs)/index.tsx"
+ * {"state": {"index": 0, "key": "stack-PoC_Z_83npEXEk96cOKl7", "preloadedRoutes": [], "routeNames": ["__root"], "routes": [[Object]], "stale": false, "type": "stack"}}
+- la 'routesNames' est un tableau qui montre toutes les routes
+
+*****usePathname****
+-donne le nom du path
+-selectione le nom de la route sans les paramètres
+
+****useRootNavigationState***
+-ceci va retourner l'etat de la route
+-ceci retourne un tableau d'objets qui contient le nom de la navigation et le dossier
+
+****useRouter****
+-const router = useRouter();
+-ceci est comme useNavigation de react
+-il ya plusieurs méthode (router.back,router.dissmis)
+-on peut utiliser 'canDismiss' pour ne pas revenir en arriere
+-donner la permission de revenir en arrière : router.canGoBack()
+-avec (router.replace("/")) ceci remplace le segment de la route
+-(router.setParams({
+   hello:"test"
+})) ceci  permet d'ajouter des parametres à la route
+
+*****useSegements()*****
+-ceci va retourner une liste de fichier ou dossiers qui se trouve dans le projet , du genre des ['profile','[users]']
