@@ -79,3 +79,4 @@ nb : souvent rédemarre le serveur
 - nous allons utiliser le fichier : app/(app)/_layout.tsx pour gérer si l utilisateur doit aller à la page suivante ou pas
  nous allons utiliser le Redirect pour rediriger si l utilisateur n est pas connéctée.
 - Slot : Renders the current selected content.
+- A group is created to organize similar routes or a section of the app. Each group has a layout file, and the grouped directory requires a name inside parentheses (group).
