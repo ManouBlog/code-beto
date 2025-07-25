@@ -1,21 +1,15 @@
-// import { Image } from 'expo-image';
-import { Button } from 'react-native';
 
-// import { HelloWave } from '@/components/HelloWave';
-// import ParallaxScrollView from '@/components/ParallaxScrollView';
+import { Button } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import { useEffect } from 'react';
 
-import { useFocusEffect
-  ,useNavigationContainerRef
-  ,usePathname,
-  useRootNavigationState,
-  useRouter,
+
+import { 
+  Link,
   useSegments
  } from 'expo-router';
 import { useAuth } from '@/app/context/auth';
-// import { useCallback } from 'react';
+
 
 export default function HomeScreen() {
   const {setUser} = useAuth()
@@ -62,6 +56,7 @@ export default function HomeScreen() {
   type="title">
    Hello 
   </ThemedText>
+  <Link href={'/deepLink/[deepLink]'}>Go to deeplink screen</Link>
   <Button title='Déconnexion'
   onPress={()=>{
   // await new Promise((resolve)=>setTimeout(resolve,2000)); // wait 2 seconds

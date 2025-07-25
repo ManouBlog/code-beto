@@ -84,3 +84,27 @@ nb : souvent rédemarre le serveur
 - code source : https://github.com/betomoedano/expo-auth-example
 - slot : https://docs.expo.dev/versions/latest/sdk/router/#slot
 - Route groupe : https://docs.expo.dev/develop/file-based-routing/#groups
+
+
+###DEEPLINK###
+-npx uri-scheme open exp://127.0.0.1:8081/--/deepLink --android
+-npx uri-scheme open exp://127.0.0.1:8081/--/deepLink --ios
+
+
+## ICONSYMBOL
+- nous utilisons san francisco pour IOS et vector-icons pour android
+- dons quand tu cliques sur "<IconSymbol></IconSymbol> " tu peux voir les details. 
+- Pour ajouter des icons que tu veux  , modifie ceci :
+const MAPPING = {
+  'house.fill': 'home',
+  'paperplane.fill': 'send',
+  'chevron.left.forwardslash.chevron.right': 'code',
+  'chevron.right': 'chevron-right',
+  'move.3d':'more-vert' (ceci viens d etre ajoute)
+} as IconMapping;
+- voici comment l ajouter :  "tabBarIcon: ({ color }) => <IconSymbol size={28} name="move.3d" color={color} />",
+
+
+## animation
+- toujours mettre  <GestureHandlerRootView /> dans le layout(racine) ou tu vas
+ mettre tes animations (c'est comme un provider) ou tu peux preciser dans le component que tu veux
