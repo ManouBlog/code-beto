@@ -64,7 +64,7 @@ const PanGestureExample = ()=>{
     <View>
       <ThemedText type='subtitle'>PAN GESTURE</ThemedText>
       <ThemedText type='subtitle'>DRAG THE BOX AROUND</ThemedText>
-      <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
+      <View>
         <GestureDetector gesture={panGesture}>
         <Box style={animatedStyle} />
         </GestureDetector>
@@ -112,8 +112,71 @@ const TapGestureExample = ()=>{
     <View>
       <ThemedText type='subtitle'>TAP GESTURE</ThemedText>
       <ThemedText type='subtitle'>SCALE THE BOX AROUND</ThemedText>
-      <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
+      <View>
         <GestureDetector gesture={tapGesture}>
+        <Box style={animatedStyle} />
+        </GestureDetector>
+      </View>
+    </View>
+  )
+}
+
+// LONG PRESS GESTURE (lorsque l utilisateur presse sur le box)
+const LongPressGestureExample = ()=>{
+
+  const scale = useSharedValue(1);
+  const opacity = useSharedValue(1);
+
+
+  const animatedStyle = useAnimatedStyle(()=>({
+    transform:[{
+      scale:scale.value
+    }],
+    opacity:opacity.value,
+   
+  }));
+   const longPressGesture = Gesture.LongPress()
+  .onStart((e)=>{
+   scale.value = withSpring(1.5);
+   opacity.value = withSpring(0.5);
+  })
+  .onFinalize((e)=>{
+  //ceci se passe lorsque tu relaches l element
+  scale.value = withSpring(1);
+  scale.value = withSpring(1);
+  })
+
+  return(
+    <View>
+      <ThemedText type='subtitle'>LONG PRESS GESTURE</ThemedText>
+      <ThemedText type='subtitle'>SCALE THE BOX AROUND</ThemedText>
+      <View>
+        <GestureDetector gesture={longPressGesture}>
+        <Box style={animatedStyle} />
+        </GestureDetector>
+      </View>
+    </View>
+  )
+}
+// ROTATION GESTURE
+const RotationGestureExample = ()=>{
+
+  const rotation = useSharedValue(0);
+  
+  const animatedStyle = useAnimatedStyle(()=>({
+    transform:[{rotateZ:`${rotation.value}rad`}],
+  }));
+   const rotationGesture = Gesture.Rotation()
+  .onUpdate((e)=>{
+  rotation.value = e.rotation;
+  })
+
+  return(
+    <View>
+      <ThemedText type='subtitle'>ROTATION GESTURE WITH 2 HANDS</ThemedText>
+      <ThemedText type='subtitle'>ROTATE THE BOX AROUND</ThemedText>
+      <View>
+        <GestureDetector gesture={rotationGesture}>
         <Box style={animatedStyle} />
         </GestureDetector>
       </View>
@@ -124,11 +187,13 @@ export default function GestureAndAnimations() {
  const [selectedExample,setSelectedExample] = React.useState('pan')
   const examples = {
     pan: <PanGestureExample />,
-    tap: <TapGestureExample />
+    tap: <TapGestureExample />,
+    longPress: <LongPressGestureExample/>,
+    rotation: <RotationGestureExample />
   }
   return (
     <SafeAreaView style={{flex:1}}>
-      <View style={{flex:1,padding:26}}>
+      <View>
     <ThemedText type='title'>Gesture and Animations</ThemedText>
     <ScrollView horizontal style={{maxHeight:35}} contentContainerStyle={{gap:16}}>
     {Object.keys(examples).map((example)=>(
